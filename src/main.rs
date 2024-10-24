@@ -69,6 +69,58 @@ fn gf256_mul(a: u8, b: u8) -> u8 {
     GF256_ANTILOG_TABLE[log_sum as usize]
 }
 
+struct Matrix {
+    // 4x4 byte Matrix
+    data: [[u8; 4]; 4], 
+}
+
+impl Matrix {
+    // Empty constructor
+    fn new() -> Self {
+        Matrix {
+            data: [[0u8; 4]; 4],
+        }
+    }
+
+    // Construct from array
+    fn from_array(array: [u8; 16]) -> Self {
+        let mut matrix = Self::new();
+        for (i, &val) in array.iter().enumerate() {
+            matrix.data[i / 4][i % 4] = val;
+        }
+        matrix
+    }
+
+    // Access element
+    fn get(&self, row: usize, col: usize) -> u8 {
+        self.data[row][col]
+    }
+
+    // Set element
+    fn set(&mut self, row: usize, col: usize, value: u8) {
+        self.data[row][col] = value;
+    }
+
+    // Convert matrix back to array
+    fn to_array(&self) -> [u8; 16] {
+        let mut array = [0u8; 16];
+        for i in 0..16 {
+            array[i] = self.data[i / 4][i % 4];
+        }
+        array
+    }
+
+    // Print matrix
+    fn print(&self) {
+        for row in self.data.iter() {
+            for &val in row.iter() {
+                print!("{:02x} ", val);
+            }
+            println!();
+        }
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
