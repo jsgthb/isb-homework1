@@ -140,6 +140,11 @@ impl AES {
         // TODO (use gf256_mul)
     }
 
+    // Print state
+    fn print_state(&mut self) {
+        self.state.print();
+    }
+
     // GF multiplication helper
     fn gf256_mul(a: u8, b: u8) -> u8 {
         // Return 0 if either input is zero
