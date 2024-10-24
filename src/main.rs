@@ -121,6 +121,38 @@ impl Matrix {
     }
 }
 
+struct AES {
+    // Internal state
+    state: Matrix
+}
+
+impl AES {
+    // Initialize AES from 4x4 byte matrix (128 bit)
+    fn from_matrix(matrix: Matrix) -> Self {
+        AES { state: matrix }
+    }
+
+    // Round key step
+    fn add_round_key(&mut self, round_key: &Matrix) {
+        // TODO
+    }
+
+    // Sub bytes step
+    fn sub_bytes(&mut self) {
+        // TODO
+    }
+
+    // Shift rows step
+    fn shift_rows(&mut self) {
+        // TODO
+    }
+
+    // Mix columns step
+    fn mix_columns(&mut self) {
+        // TODO (use gf256_mul)
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
