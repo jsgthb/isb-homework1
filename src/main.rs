@@ -56,18 +56,6 @@ const SBOX_TABLE: [u8; 256] = [
     0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf, 
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16 
 ];
-  
-fn gf256_mul(a: u8, b: u8) -> u8 {
-    // Return 0 if either input is zero
-    if a == 0 || b == 0 {
-        return 0;
-    }
-    // Use precomputed tables if both inputs are non zero
-    let log_a = GF256_LOG_TABLE[a as usize];
-    let log_b = GF256_LOG_TABLE[b as usize];
-    let log_sum = (log_a as u16 + log_b as u16) % 255;
-    GF256_ANTILOG_TABLE[log_sum as usize]
-}
 
 struct Matrix {
     // 4x4 byte Matrix
@@ -150,6 +138,19 @@ impl AES {
     // Mix columns step
     fn mix_columns(&mut self) {
         // TODO (use gf256_mul)
+    }
+
+    // GF multiplication helper
+    fn gf256_mul(a: u8, b: u8) -> u8 {
+        // Return 0 if either input is zero
+        if a == 0 || b == 0 {
+            return 0;
+        }
+        // Use precomputed tables if both inputs are non zero
+        let log_a = GF256_LOG_TABLE[a as usize];
+        let log_b = GF256_LOG_TABLE[b as usize];
+        let log_sum = (log_a as u16 + log_b as u16) % 255;
+        GF256_ANTILOG_TABLE[log_sum as usize]
     }
 }
 
