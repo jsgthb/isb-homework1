@@ -94,4 +94,22 @@ mod tests {
         plaintext_matrix.print();
         assert_eq!(plaintext_matrix.get(3, 0), 0xF2);
     }
+
+    #[test]
+    fn test_aes_mix_columns() {
+        let plaintext_array: [u8; 16] = [
+            0x23, 0x00, 0x00, 0x00,
+            0x00, 0x3C, 0x00, 0x00,
+            0x00, 0x00, 0x44, 0x00,
+            0x00, 0x00, 0x00, 0xF2
+        ];
+        let plaintext_matrix = Matrix::from_array(plaintext_array);
+        let mut aes = AES::from_matrix(plaintext_matrix);
+        println!("AES state before column mixing =");
+        aes.print_state();
+        aes.mix_columns();
+        println!("AES state after column mixing =");
+        aes.print_state();
+        assert_eq!(aes.state.get(3, 3), 0xFF);
+    }
 }

@@ -161,7 +161,40 @@ impl AES {
 
     // Mix columns step
     fn mix_columns(&mut self) {
-        // TODO (use gf256_mul)
+        // Get column values
+        for col in 0..4 {
+            let columns = [
+                self.state.get(0, col),
+                self.state.get(1, col),
+                self.state.get(2, col),
+                self.state.get(3, col)
+            ];
+            // Apply transformations
+            // First transformation (2 * c[0]) ^ (3 * c[1]) ^ (1 * c[2]) ^ (1 * c[3])
+            let transformation1 = Self::gf256_mul(0x02, columns[0])
+                                    ^ Self::gf256_mul(0x03, columns[1])
+                                    ^ columns[2]
+                                    ^ columns[3];
+            self.state.set(0, col, transformation1);
+            // Second transformation (1 * c[0]) ^ (2 * c[1]) ^ (3 * c[2]) ^ (1 * c[3])
+            let transformation2 = columns[0]
+                                    ^ Self::gf256_mul(0x02, columns[1])
+                                    ^ Self::gf256_mul(0x03, columns[2])
+                                    ^ columns[3];
+            self.state.set(1, col, transformation2);
+            // Third transformation (1 * c[0]) ^ (1 * c[1]) ^ (2 * c[2]) ^ (3 * c[3])
+            let transformation3 = columns[0]
+                                    ^ columns[1]
+                                    ^ Self::gf256_mul(0x02, columns[2])
+                                    ^ Self::gf256_mul(0x03, columns[3]);
+            self.state.set(2, col, transformation3);
+            // Fourth transformation (3 * c[0]) ^ (1 * c[1]) ^ (1 * c[2]) ^ (2 * c[3])
+            let transformation4 = Self::gf256_mul(0x03, columns[0])
+                                    ^ columns[1]
+                                    ^ columns[2]
+                                    ^ Self::gf256_mul(0x02, columns[3]);
+            self.state.set(3, col, transformation4);
+        }
     }
 
     // Print state
