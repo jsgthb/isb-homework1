@@ -91,11 +91,22 @@ impl Matrix {
         self.data[row][col] = value;
     }
 
-    // Convert matrix back to array
+    // Convert matrix back to array (row major for general use)
     fn to_array(&self) -> [u8; 16] {
         let mut array = [0u8; 16];
         for i in 0..16 {
             array[i] = self.data[i / 4][i % 4];
+        }
+        array
+    }
+
+    // Convert matrix back to array (column major for AES)
+    fn to_array_column_major(&self) -> [u8; 16] {
+        let mut array = [0u8; 16];
+        for col in 0..4 {
+            for row in 0..4 {
+                array[col * 4 + row] = self.data[row][col];
+            }
         }
         array
     }
@@ -242,7 +253,7 @@ impl AES {
         println!("State after mixcolumns transformation:");
         self.print_state();
         println!("Original plaintext: {:x?}", plaintext);
-        println!("Ciphertext: {:x?}\n", self.state.to_array());
+        println!("Ciphertext: {:x?}\n", self.state.to_array_column_major());
     }
 }
 
