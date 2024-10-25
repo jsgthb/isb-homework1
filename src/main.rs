@@ -73,8 +73,10 @@ impl Matrix {
     // Construct from array
     fn from_array(array: [u8; 16]) -> Self {
         let mut matrix = Self::new();
-        for (i, &val) in array.iter().enumerate() {
-            matrix.data[i / 4][i % 4] = val;
+        for i in 0..4 {
+            for j in 0..4 {
+                matrix.data[j][i] = array[i * 4 + j];
+            }
         }
         matrix
     }
@@ -221,6 +223,8 @@ impl AES {
         let plaintext = self.state.to_array();
         println!("Plaintext: {:x?}", plaintext);
         println!("Roundkey: {:x?}\n", round_key.to_array());
+        println!("Starting state:");
+        self.print_state();
         // Addition of round key
         self.add_round_key(round_key);
         println!("State after roundkey addition:");
