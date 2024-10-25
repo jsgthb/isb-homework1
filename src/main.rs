@@ -259,6 +259,8 @@ impl AES {
 
 fn main() {
     // Plaintext and roundkey
+    // Student ID 020176095A
+    // Last four bytes: 01 33 DC DF (ignore A)
     let plaintext_array: [u8; 16] = [
         0x01, 0x23, 0x45, 0x67, 
         0x89, 0xab, 0xcd, 0xef, 
@@ -269,7 +271,7 @@ fn main() {
         0x0f, 0x15, 0x71, 0xc9, 
         0x47, 0xd9, 0xe8, 0x59, 
         0x0c, 0xb7, 0xad, 0xd6, 
-        0xaf, 0x7f, 0x67, 0x98
+        0x01, 0x33, 0xdc, 0xdf
     ];
     // Start AES operations
     let plaintext_matrix = Matrix::from_array(plaintext_array);
