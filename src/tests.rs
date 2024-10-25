@@ -133,7 +133,7 @@ mod tests {
         let roundkey_matrix = Matrix::from_array(round_key_array);
         let mut aes = AES::from_matrix(plaintext_matrix);
         aes.round_trans(&roundkey_matrix);
-        let ciphertext_generated = aes.state.to_array_column_major();
+        let ciphertext_generated = aes.state.to_array();
         let ciphertext_expected = [
             0xb9, 0xe4, 0x47, 0xc5, 
             0x94, 0x8e, 0x20, 0xd6, 
