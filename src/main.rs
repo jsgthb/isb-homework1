@@ -176,24 +176,25 @@ impl AES {
                                     ^ Self::gf256_mul(0x03, columns[1])
                                     ^ columns[2]
                                     ^ columns[3];
-            self.state.set(0, col, transformation1);
             // Second transformation (1 * c[0]) ^ (2 * c[1]) ^ (3 * c[2]) ^ (1 * c[3])
             let transformation2 = columns[0]
                                     ^ Self::gf256_mul(0x02, columns[1])
                                     ^ Self::gf256_mul(0x03, columns[2])
                                     ^ columns[3];
-            self.state.set(1, col, transformation2);
             // Third transformation (1 * c[0]) ^ (1 * c[1]) ^ (2 * c[2]) ^ (3 * c[3])
             let transformation3 = columns[0]
                                     ^ columns[1]
                                     ^ Self::gf256_mul(0x02, columns[2])
                                     ^ Self::gf256_mul(0x03, columns[3]);
-            self.state.set(2, col, transformation3);
             // Fourth transformation (3 * c[0]) ^ (1 * c[1]) ^ (1 * c[2]) ^ (2 * c[3])
             let transformation4 = Self::gf256_mul(0x03, columns[0])
                                     ^ columns[1]
                                     ^ columns[2]
                                     ^ Self::gf256_mul(0x02, columns[3]);
+            // Set state values
+            self.state.set(0, col, transformation1);
+            self.state.set(1, col, transformation2);
+            self.state.set(2, col, transformation3);
             self.state.set(3, col, transformation4);
         }
     }
@@ -253,7 +254,7 @@ fn main() {
         0x0f, 0x15, 0x71, 0xc9, 
         0x47, 0xd9, 0xe8, 0x59, 
         0x0c, 0xb7, 0xad, 0xd6, 
-        0x01, 0x33, 0xDC, 0xDF
+        0xaf, 0x7f, 0x67, 0x98
     ];
     // Start AES operations
     let plaintext_matrix = Matrix::from_array(plaintext_array);
