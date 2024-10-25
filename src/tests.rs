@@ -36,4 +36,29 @@ mod tests {
         println!("Array = {:x?}\nMatrix =", array);
         matrix.print();
     }
+
+    #[test]
+    fn test_add_round_key() {
+        let plaintext_array: [u8; 16] = [
+            0x23, 0x00, 0x00, 0x00,
+            0x00, 0x3C, 0x00, 0x00,
+            0x00, 0x00, 0x44, 0x00,
+            0x00, 0x00, 0x00, 0xF2
+        ];
+        let round_key_array: [u8; 16] = [
+            0x12, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x45
+        ];
+        let plaintext_matrix = Matrix::from_array(plaintext_array);
+        let round_key_matrix = Matrix::from_array(round_key_array);
+        let mut aes = AES::from_matrix(plaintext_matrix);
+        aes.add_round_key(&round_key_matrix);
+        let matrix_last_element = aes.state.get(3, 3);
+        assert_eq!(matrix_last_element, 0xb7);
+        println!("Plaintext = {:x?}\nRound key = {:x?}", plaintext_array, round_key_array);
+        println!("AES state =");
+        aes.print_state();
+    }
 }
