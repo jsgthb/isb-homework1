@@ -132,9 +132,15 @@ impl AES {
         }
     }
 
-    // Sub bytes step
+    // Substitution step (using sbox table)
     fn sub_bytes(&mut self) {
-        // TODO
+        for row in 0..4 {
+            for col in 0..4 {
+                let state_bits =  self.state.get(row, col);
+                let substitution = SBOX_TABLE[state_bits as usize];
+                self.state.set(row, col, substitution);
+            }
+        }
     }
 
     // Shift rows step
