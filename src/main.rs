@@ -106,6 +106,7 @@ impl Matrix {
             }
             println!();
         }
+        println!();
     }
 
     // Rotate data to the left

@@ -90,7 +90,7 @@ mod tests {
         println!("Matrix before rotation =");
         plaintext_matrix.print();
         plaintext_matrix.rotate_left(3, 3);
-        println!("\nMatrix after rotation =");
+        println!("Matrix after rotation =");
         plaintext_matrix.print();
         assert_eq!(plaintext_matrix.get(3, 0), 0xF2);
     }
