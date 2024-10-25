@@ -77,4 +77,21 @@ mod tests {
         println!("Plaintext = {:x?}\nSubstituted AES state =", plaintext_array);
         aes.print_state();
     }
+
+    #[test]
+    fn test_matrix_rotate_left() {
+        let plaintext_array: [u8; 16] = [
+            0x23, 0x00, 0x00, 0x00,
+            0x00, 0x3C, 0x00, 0x00,
+            0x00, 0x00, 0x44, 0x00,
+            0x00, 0x00, 0x00, 0xF2
+        ];
+        let mut plaintext_matrix = Matrix::from_array(plaintext_array);
+        println!("Matrix before rotation =");
+        plaintext_matrix.print();
+        plaintext_matrix.rotate_left(3, 3);
+        println!("\nMatrix after rotation =");
+        plaintext_matrix.print();
+        assert_eq!(plaintext_matrix.get(3, 0), 0xF2);
+    }
 }

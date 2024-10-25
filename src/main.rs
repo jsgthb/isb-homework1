@@ -107,6 +107,11 @@ impl Matrix {
             println!();
         }
     }
+
+    // Rotate data to the left
+    fn rotate_left(&mut self, row: usize, position: usize) {
+        self.data[row].rotate_left(position);
+    }
 }
 
 struct AES {
@@ -145,7 +150,13 @@ impl AES {
 
     // Shift rows step
     fn shift_rows(&mut self) {
-        // TODO
+        // Leave first row unchanged
+        // Shift second row by 1
+        self.state.rotate_left(1, 1);
+        // Shift third row by 2
+        self.state.rotate_left(2, 2);
+        // Shift fourth row by 3
+        self.state.rotate_left(3, 3);
     }
 
     // Mix columns step
