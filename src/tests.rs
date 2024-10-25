@@ -1,8 +1,12 @@
 #[cfg(test)]
-mod tests {
-    use crate::Matrix;
-    use crate::AES;
+use crate::aes::AES;
+#[cfg(test)]
+use crate::matrix::Matrix;
 
+mod tests {
+    #[cfg(test)]
+    use super::*;
+    
     #[test]
     fn test_aes_gf256_mul_standard() {
         let a: u8 = 0x57;
