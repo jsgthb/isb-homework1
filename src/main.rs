@@ -215,22 +215,49 @@ impl AES {
         let log_sum = (log_a as u16 + log_b as u16) % 255;
         GF256_ANTILOG_TABLE[log_sum as usize]
     }
+
+    fn round_trans(&mut self, round_key: &Matrix) {
+        let plaintext = self.state.to_array();
+        println!("Plaintext: {:x?}", plaintext);
+        println!("Roundkey: {:x?}\n", round_key.to_array());
+        // Addition of round key
+        self.add_round_key(round_key);
+        println!("State after roundkey addition:");
+        self.print_state();
+        // S-box Substitution
+        self.sub_bytes();
+        println!("State after s-box substitution:");
+        self.print_state();
+        // Shiftrows transformation
+        self.shift_rows();
+        println!("State after shiftrows transformation:");
+        self.print_state();
+        // Mixcolumns transformation
+        self.mix_columns();
+        println!("State after mixcolumns transformation:");
+        self.print_state();
+        println!("Original plaintext: {:x?}", plaintext);
+        println!("Ciphertext: {:x?}\n", self.state.to_array());
+    }
 }
 
 fn main() {
+    // Plaintext and roundkey
     let plaintext_array: [u8; 16] = [
-        0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10
+        0x01, 0x23, 0x45, 0x67, 
+        0x89, 0xab, 0xcd, 0xef, 
+        0xfe, 0xdc, 0xba, 0x98, 
+        0x76, 0x54, 0x32, 0x10
     ];
-    // Student ID: 020176095A
-    // Hex representation (missing last A): 01 33 DC DF
-    let round_key: [u8; 16] = [
-        0x0f, 0x15, 0x71, 0xc9, 0x47, 0xd9, 0xe8, 0x59, 0x0c, 0xb7, 0xad, 0xd6, 0x01, 0x33, 0xDC, 0xDF
+    let round_key_array: [u8; 16] = [
+        0x0f, 0x15, 0x71, 0xc9, 
+        0x47, 0xd9, 0xe8, 0x59, 
+        0x0c, 0xb7, 0xad, 0xd6, 
+        0x01, 0x33, 0xDC, 0xDF
     ];
-    println!("Plaintext: {:x?}", plaintext_array);
-    println!("Round key: {:x?}", round_key);
     // Start AES operations
     let plaintext_matrix = Matrix::from_array(plaintext_array);
+    let roundkey_matrix = Matrix::from_array(round_key_array);
     let mut aes = AES::from_matrix(plaintext_matrix);
-    println!("AES state matrix:");
-    aes.print_state();
+    aes.round_trans(&roundkey_matrix);
 }
