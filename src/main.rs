@@ -120,9 +120,16 @@ impl AES {
         AES { state: matrix }
     }
 
-    // Round key step
+    // Round key step (XOR state with round key)
     fn add_round_key(&mut self, round_key: &Matrix) {
-        // TODO
+        for row in 0..4 {
+            for col in 0..4 {
+                let state_bits =  self.state.get(row, col);
+                let round_key_bits = round_key.get(row, col);
+                let xor  = state_bits ^ round_key_bits;
+                self.state.set(row, col, xor);
+            }
+        }
     }
 
     // Sub bytes step
