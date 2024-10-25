@@ -61,4 +61,20 @@ mod tests {
         println!("AES state =");
         aes.print_state();
     }
+
+    #[test]
+    fn test_sub_bytes() {
+        let plaintext_array: [u8; 16] = [
+            0x23, 0x00, 0x00, 0x00,
+            0x00, 0x3C, 0x00, 0x00,
+            0x00, 0x00, 0x44, 0x00,
+            0x00, 0x00, 0x00, 0xF2
+        ];
+        let plaintext_matrix = Matrix::from_array(plaintext_array);
+        let mut aes = AES::from_matrix(plaintext_matrix);
+        aes.sub_bytes();
+        assert_eq!(aes.state.get(0, 0), 0x26);
+        println!("Plaintext = {:x?}\nSubstituted AES state =", plaintext_array);
+        aes.print_state();
+    }
 }
