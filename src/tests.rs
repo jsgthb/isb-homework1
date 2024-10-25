@@ -4,7 +4,7 @@ mod tests {
     use crate::AES;
 
     #[test]
-    fn test_gf256_mul_standard() {
+    fn test_aes_gf256_mul_standard() {
         let a: u8 = 0x57;
         let b: u8 = 0x83;
         let out: u8 = 0xC1;
@@ -13,7 +13,7 @@ mod tests {
     }
 
     #[test]
-    fn test_gf256_mul_zero() {
+    fn test_aes_gf256_mul_zero() {
         let a: u8 = 0x00;
         let b: u8 = 0x00;
         let out: u8 = 0x00;
@@ -38,7 +38,7 @@ mod tests {
     }
 
     #[test]
-    fn test_add_round_key() {
+    fn test_aes_add_round_key() {
         let plaintext_array: [u8; 16] = [
             0x23, 0x00, 0x00, 0x00,
             0x00, 0x3C, 0x00, 0x00,
@@ -63,7 +63,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sub_bytes() {
+    fn test_aes_sub_bytes() {
         let plaintext_array: [u8; 16] = [
             0x23, 0x00, 0x00, 0x00,
             0x00, 0x3C, 0x00, 0x00,
