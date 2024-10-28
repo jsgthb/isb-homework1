@@ -14,9 +14,10 @@ impl Matrix {
     // Construct from array
     pub fn from_array(array: [u8; 16]) -> Self {
         let mut matrix = Self::new();
-        for i in 0..4 {
-            for j in 0..4 {
-                matrix.data[j][i] = array[i * 4 + j];
+        for col in 0..4 {
+            for row in 0..4 {
+                let position = col * 4 + row;
+                matrix.set(row, col, array[position]);
             }
         }
         matrix
@@ -37,7 +38,8 @@ impl Matrix {
         let mut array = [0u8; 16];
         for col in 0..4 {
             for row in 0..4 {
-                array[col * 4 + row] = self.data[row][col];
+                let position = col * 4 + row;
+                array[position] = self.get(row, col);
             }
         }
         array
