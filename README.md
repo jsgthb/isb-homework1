@@ -1,4 +1,4 @@
-# Information Security Basics - Homework Symmetric Cryptography
+# Information Security Basics - Homework 1
 
 This repository contains an implementation of the four main round transformations of the AES-128 encryption algorithm. The code focuses on performing a single encryption round on a 128-bit plaintext block using a modified round key. This project was completed as part of an assignment. Do not use this code in a production environment.
 
